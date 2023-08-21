@@ -1,0 +1,52 @@
+//PROBLEM 1//
+class Solution {
+    public int matchPlayersAndTrainers(int[] players, int[] trainers) {
+        Arrays.sort(players);
+        Arrays.sort(trainers);
+        int i = players.length - 1, j = trainers.length - 1, matchings = 0;
+        while(i >= 0 && j >= 0) {
+            // cannot be trained 
+            if(players[i] > trainers[j])
+                --i;
+            else {
+                ++matchings;
+                --i;
+                --j;
+            }
+        }
+        return matchings;
+    }
+}
+
+//PROBLEM 2//
+class CustomSort implements Comparator<Pair> {
+    public int compare(Pair a, Pair b)
+    {
+        // System.out.println(a.getValue() + " " + b.getValue());
+        // System.out.println(a.getKey() + " " + b.getKey());        
+        String s1 = (String)(a.getKey());
+        String s2 = (String)(b.getKey());        
+        return s1.compareTo(s2);        
+    }
+}
+class Solution {
+    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+        int arr[] = new int[queries.length];
+        for (int i=0; i < queries.length ; i++)
+        {                    
+            ArrayList<Pair> list = new ArrayList<>();            
+            for(int j = 0; j < nums.length ; j++)
+            {
+                String a = nums[j];
+                int begindex = a.length() - queries[i][1];
+                int endindex = a.length();
+                String s1 = a.substring(begindex,endindex);                
+                Pair<String,Integer> p = new Pair(s1,j);
+                list.add(p);                
+            }
+            Collections.sort(list, new CustomSort());                        
+            arr[i] = (int)(list.get(queries[i][0] - 1).getValue());            
+        }        
+        return arr;
+    }
+}
