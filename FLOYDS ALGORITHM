@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define INF 9999
+
+void floydWarshall() {
+    int numNodes, i, j, k;
+    
+    printf("Enter the number of nodes: ");
+    scanf("%d", &numNodes);
+
+    int a[numNodes][numNodes];
+
+    printf("Enter the weighted adjacency matrix for the graph and -1 for disconnected:\n");
+    for (i = 0; i < numNodes; i++) {
+        for (j = 0; j < numNodes; j++) {
+            scanf("%d", &a[i][j]);
+            if (a[i][j] == -1) {
+                a[i][j] = INF;
+            }
+        }
+    }
+
+    for (k = 0; k < numNodes; k++) {
+        for (i = 0; i < numNodes; i++) {
+            for (j = 0; j < numNodes; j++) {
+                if (a[i][k] + a[k][j] < a[i][j]) {
+                    a[i][j] = a[i][k] + a[k][j];
+                }
+            }
+        }
+    }
+
+    printf("Shortest distances between all pairs:\n");
+    for (i = 0; i < numNodes; i++) {
+        for (j = 0; j < numNodes; j++) {
+            if (a[i][j] == INF) {
+                printf("%d ", -1);
+            } else {
+                printf("%d ", a[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    floydWarshall();
+    return 0;
+}
